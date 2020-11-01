@@ -1,9 +1,9 @@
 package com.bisapp.rxjavaexamples;
 
-import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
+import org.junit.Assert;
+import org.junit.Test;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -12,22 +12,19 @@ import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 
-public class MainActivity extends AppCompatActivity {
+public class RxJavaTest {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        createObservablesAndSubscribing();
-    }
-
-    private void createObservablesAndSubscribing() {
+    @Test
+    public void createObservablesAndSubscribing() {
+        final String expected =  "Emitting new Stuff !!";
         Observable observable = Observable.create(new ObservableOnSubscribe() {
             @Override
             public void subscribe(@NonNull ObservableEmitter emitter) {
 
-                emitter.onNext("Emitting new Stuff !!");
+                emitter.onNext(expected);
             }
         });
 
@@ -40,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNext(String o) {
 
-                Log.d("RxJava Create", o);
+                try {
+                    Assert.assertThat(expected, not(o));
+                }catch (Exception e){
+                    onError(e);
+                }
             }
 
             @Override
