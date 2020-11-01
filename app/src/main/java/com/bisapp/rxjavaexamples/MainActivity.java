@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -23,11 +24,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createObservablesAndSubscribing() {
+
         Observable observable = Observable.create(new ObservableOnSubscribe() {
             @Override
             public void subscribe(@NonNull ObservableEmitter emitter) {
 
                 emitter.onNext("Emitting new Stuff !!");
+                emitter.onComplete();
             }
         });
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onComplete() {
+                Log.d("RxJava Create","Observable consumed");
 
             }
         });
