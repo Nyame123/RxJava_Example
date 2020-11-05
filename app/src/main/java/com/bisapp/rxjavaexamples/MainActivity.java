@@ -5,13 +5,17 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.Callable;
+
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +24,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createObservablesAndSubscribing();
+        deferExample();
+    }
+
+    private void deferExample(){
+        Book newBook = new Book();
+        Observable<String> justObservable = newBook.justObservable();
+        Observable<String> deferObservable = newBook.deferObservable();
+        newBook.setPage("Second Page");
+
+        justObservable.subscribe(s -> {
+            //This will print the default value which is First Page
+            //Since the just create the observable even before the subscription
+            Log.d("RxJava Just",s);
+        });
+        deferObservable.subscribe(s -> {
+            //This will print the default value which is Second Page
+            //Since the defer wrapper wait till subscription before creating the observable
+            Log.d("RxJava Defer",s);
+        });;
     }
 
     private void createObservablesAndSubscribing() {
