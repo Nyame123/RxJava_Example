@@ -20,6 +20,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -34,10 +35,36 @@ public class MainActivity extends AppCompatActivity {
         //noEmissionExample();
     }
 
+    private void observableFromFilter() {
+
+        Observable.fromArray(1, 1,2,4,5,4,5,4,3,5)
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer integer) throws Exception {
+                        return integer % 2 == 0;
+                    }
+                })
+                .subscribe(v -> {
+                    Log.d("Rx Java", String.valueOf(v));
+
+                });
+
+    }
+private void observableFromDistinct() {
+
+        Observable.fromArray(1, 1,2,4,5,4,5,4,3,5)
+                .distinct()
+                .subscribe(v -> {
+                    Log.d("Rx Java", String.valueOf(v));
+
+                });
+
+    }
+
     private void observableFromDebounce() {
 
-        Observable.range(1, 10)
-                .debounce(2, TimeUnit.SECONDS)
+        Observable.range(1, 1200)
+                .debounce(3, TimeUnit.MICROSECONDS)
                 .subscribe(v -> {
                     Log.d("Rx Java", String.valueOf(v));
 
