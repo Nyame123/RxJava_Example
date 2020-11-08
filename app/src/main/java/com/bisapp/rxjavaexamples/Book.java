@@ -18,13 +18,7 @@ public class Book {
     }
 
     public Observable<String> deferObservable() {
-        return Observable.defer(new Callable<ObservableSource<String>>() {
-
-            @Override
-            public ObservableSource<String> call() throws Exception {
-                return Observable.just(page);
-            }
-        });
+        return Observable.defer((Callable<ObservableSource<String>>) () -> Observable.just(page));
     }
 
 }
