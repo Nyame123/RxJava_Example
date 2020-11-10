@@ -4,10 +4,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -20,32 +22,115 @@ import io.reactivex.functions.Function;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 
 public class RxJavaTest {
 
     @Test
+    public void testObservableAmb(){
+
+        Observable.ambArray(Observable.just("Item one"),Observable.range(1,4)).
+                subscribe(v -> {
+                    System.out.println(v);
+                });
+    }
+
+    @Test
+    public void testObservableContains() {
+        Observable.just(2, 4).
+                contains(4).subscribe(v -> {
+            System.out.println(v);
+        });
+    }
+
+    @Test
+    public void testObservableAll() {
+        Observable.just(2, 4).
+                all(integer -> integer % 2 == 0).subscribe(v -> {
+            System.out.println(v);
+        });
+    }
+
+    @Test
+    public void testObservableRetry(){
+        Integer ATTEMPTS = 4;
+        AtomicReference<Integer> COPY_ATTEMPTS = new AtomicReference<>(4);
+       Observable<String> retryObservable = Observable.fromCallable(() -> {
+            if (Math.random() < 0.1) {
+                return "Working";
+            } else {
+                System.out.println(COPY_ATTEMPTS.
+                        getAndSet(COPY_ATTEMPTS.get() - 1));
+                throw new RuntimeException("Transient");
+            }
+        });
+
+       retryObservable
+                .retryWhen(throwableObservable -> {
+                    return throwableObservable.zipWith(Observable.range(1, ATTEMPTS),
+                            (BiFunction<Throwable, Integer, Object>) (throwable, integer) ->
+                                    integer < ATTEMPTS? Observable.timer(20,SECONDS)
+                                            : Observable.error(throwable));
+                })
+                .subscribe(v -> {
+                    System.out.println(v);
+                },err->{
+                    System.out.println(err.getLocalizedMessage());
+                });
+    }
+
+    @Test
+    public void testObservableCatch() {
+         AtomicReference<String> string = new AtomicReference<>();
+        Observable.error(new Throwable("Error One"))
+                .onErrorReturn(throwable -> {
+                    string.set("An error occured");
+                    return string;
+                }).subscribe(v->{
+                    System.out.println(v);
+                },err->{
+                    System.out.println(err.getLocalizedMessage());
+        });
+
+        Observable.error(new Throwable("Error One"))
+                .onErrorReturnItem("This is what I want when there is an error")
+                .subscribe(v->{
+                    System.out.println(v);
+                });
+
+        Observable.error(new Throwable("Error One"))
+                .onErrorResumeNext(Observable.just("This is just an error result !!!"))
+                .subscribe(v -> {
+                    System.out.println(v);
+                });
+    }
+
+    @Test
     public void testObservableJoin() {
 
-        Observable<Long> firstObservable = Observable.interval(0, 2, TimeUnit.SECONDS).take(3);
-        Observable<Long> secondObservable = Observable.interval(6, 1, TimeUnit.SECONDS).take(3);
+        Observable<Long> firstObservable = Observable.interval(0, 2, SECONDS).take(3);
+        Observable<Long> secondObservable = Observable.interval(2, 1, SECONDS).take(3);
         firstObservable.join(secondObservable, new Function<Long, Observable<Long>>() {
             @Override
             public Observable<Long> apply(Long aLong) throws Exception {
-                return Observable.timer(2, TimeUnit.SECONDS);
+                return Observable.timer(2, SECONDS);
             }
         }, new Function<Long, Observable<Long>>() {
             @Override
             public Observable<Long> apply(Long bLong) throws Exception {
-                return Observable.timer(1, TimeUnit.SECONDS);
+                return Observable.timer(1, SECONDS);
             }
         }, new BiFunction<Long, Long, String>() {
             @Override
             public String apply(Long aLong, Long tRight) throws Exception {
                 return aLong + " null " + tRight;
             }
-        }).subscribe(System.out::println);
+        }).subscribe(v -> {
+            System.out.println(v);
+        });
+
 
     }
 
@@ -238,7 +323,8 @@ public class RxJavaTest {
     public void testObservableDebounce() {
 
         Observable.range(1, 10)
-                .debounce(3, TimeUnit.MICROSECONDS)
+                .delay(1, SECONDS)
+                //.debounce(3, TimeUnit.MICROSECONDS)
                 .subscribe(v -> {
                     System.out.println(v);
                 });
@@ -249,7 +335,7 @@ public class RxJavaTest {
     public void testObservableWindow() {
         Observable
                 .range(0, 10)
-                .window(2, TimeUnit.SECONDS)
+                .window(2, SECONDS)
                 .subscribe(v -> {
                     v.subscribe(System.out::print);
                 });
@@ -280,7 +366,7 @@ public class RxJavaTest {
     @Test
     public void testObservableInterval() {
         // This will not terminate, it will emit values from 0 to infinity
-        Observable.interval(2, TimeUnit.SECONDS)
+        Observable.interval(2, SECONDS)
                 .test()
                 .assertNotTerminated();
 
@@ -327,7 +413,7 @@ public class RxJavaTest {
 
         TestObserver<String> testSubscriber = new TestObserver<>();
         TestScheduler testScheduler = new TestScheduler();
-        Observable.fromFuture(futureTask, 5, TimeUnit.SECONDS, testScheduler).doOnSubscribe(disposable -> {
+        Observable.fromFuture(futureTask, 5, SECONDS, testScheduler).doOnSubscribe(disposable -> {
             futureTask.run();
             //don't forget to call the run() on
             // futureTask lest the test will hang since the task has not started

@@ -31,9 +31,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        observableFromDebounce();
+        testObservableJoin();
         //noEmissionExample();
     }
+
+    public void testObservableJoin() {
+
+        Observable<Long> firstObservable = Observable.interval(0, 2, TimeUnit.SECONDS).take(3);
+        Observable<Long> secondObservable = Observable.interval(2, 1, TimeUnit.SECONDS).take(3);
+        firstObservable.join(secondObservable, new Function<Long, Observable<Long>>() {
+            @Override
+            public Observable<Long> apply(Long aLong) throws Exception {
+                return Observable.timer(2, TimeUnit.SECONDS);
+            }
+        }, new Function<Long, Observable<Long>>() {
+            @Override
+            public Observable<Long> apply(Long bLong) throws Exception {
+                return Observable.timer(1, TimeUnit.SECONDS);
+            }
+        }, new BiFunction<Long, Long, String>() {
+            @Override
+            public String apply(Long aLong, Long tRight) throws Exception {
+                return aLong + " null " + tRight;
+            }
+        }).subscribe(v->{
+            Log.d("Rx Java", String.valueOf(v));
+        });
+
+    }
+
 
     private void observableFromFilter() {
 
@@ -64,7 +90,8 @@ private void observableFromDistinct() {
     private void observableFromDebounce() {
 
         Observable.range(1, 1200)
-                .debounce(3, TimeUnit.MICROSECONDS)
+                .delay(8,TimeUnit.SECONDS)
+                .throttleLast(1, TimeUnit.MILLISECONDS)
                 .subscribe(v -> {
                     Log.d("Rx Java", String.valueOf(v));
 
