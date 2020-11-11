@@ -2,11 +2,12 @@ package com.bisapp.rxjavaexamples;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -15,18 +16,45 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.TestScheduler;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RxJavaTest {
+
+    @Test
+    public void testConnectableObserver() throws InterruptedException {
+        final int count = 10;
+        final CountDownLatch latch = new CountDownLatch( count );
+        final ConnectableObservable<Integer> connectedObservable = Observable.range( 0, count ).publish();
+        //connect to our latch, which should run on it's own subscription
+        //start our latch running
+        connectedObservable.doOnNext( integer -> latch.countDown() ).subscribeOn( Schedulers.io() ).subscribe();
+        final Single<Long> countObservable = connectedObservable.subscribeOn( Schedulers.io() ).count();
+        //start the sequence
+        connectedObservable.connect();
+        final boolean completed = latch.await( 5, TimeUnit.SECONDS );
+        assertTrue( "publish1 behaves as expected", completed );
+        final Long returnedCount = countObservable.to(new Function<Single<Long>, Long>() {
+            @Override
+            public Long apply(Single<Long> longSingle) throws Exception {
+                return longSingle.blockingGet();
+            }
+        });
+        assertEquals( "Counts the same", Long.valueOf(count), returnedCount );
+    }
 
     @Test
     public void testObservableAmb(){
