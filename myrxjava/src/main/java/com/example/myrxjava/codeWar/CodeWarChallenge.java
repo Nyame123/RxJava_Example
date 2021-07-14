@@ -117,9 +117,8 @@ public class CodeWarChallenge {
         countTriplet(numbers,2);
          sort(numbers);
 
-        parkingDilemma(new int[]{2, 10, 8, 17}, 3);
-        */
-        List<Integer> arr = new ArrayList<>();
+
+        t<Integer> arr = new ArrayList<>();
         arr.add(9);
         arr.add(9);
         arr.add(10);
@@ -132,10 +131,16 @@ public class CodeWarChallenge {
         arr.add(6);
         arr.add(3);
 
-        ranking(arr, 3);
+        ranking(arr, 3);*/
 
 
+        runParkingDilema();
+
+        /*String[] strs = {"10","0001","111001","1","0"};
+        findMaxForm(strs,5,3);*/
     }
+
+
 
     public static void timeConversion(String s) {
         // Write your code here
@@ -291,14 +296,19 @@ public class CodeWarChallenge {
         }
     }
 
+    private static void runParkingDilema() {
+        parkingDilemma(new int[]{2,1,10, 8, 17}, 3);
+    }
+
     public static void parkingDilemma(int[] cars, int k) {
         // write your code here
         Arrays.sort(cars);
         int len = cars.length;
         int min = cars[k - 1] - cars[0];
         for (int i = 1; i <= len - k; i++) {
-            if (min > cars[k - 1 + i] - cars[i]) {
-                min = cars[k - 1 + i] - cars[i];
+            int val = cars[k - 1 + i] - cars[i];
+            if (min > val) {
+                min = val;
             }
         }
 

@@ -43,3 +43,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
 }
+
+task dirContents(type: Exec){
+    workingDir "${project.buildDir}"
+    commandLine 'ls'
+}
