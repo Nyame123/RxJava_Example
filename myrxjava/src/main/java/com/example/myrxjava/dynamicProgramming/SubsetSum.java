@@ -16,32 +16,34 @@ public class SubsetSum {
 
     public static void main(String[] args) {
 
-        //subsetSumTabulation(new int[]{2,3,7,8,10},11);
+        //subsetSumTabulation(new int[]{2, 7}, 11);
         runRecursiveSubsetSum();
     }
 
-    private static void runRecursiveSubsetSum(){
-        Map<Integer,Boolean> memo = new HashMap<>();
-        boolean result = subsetSumRecursion(new int[]{2,3,7,8,10},11,memo);
+    private static void runRecursiveSubsetSum() {
+        Map<Integer, Boolean> memo = new HashMap<>();
+        boolean result = subsetSumRecursion(new int[]{2, 3,7,8,10}, 0, 11, memo);
 
         System.out.println("Possibility of subset Sum  = " + result);
     }
 
-    private static boolean subsetSumRecursion(int[] arr, int sum, Map<Integer,Boolean> memo) {
+    private static boolean subsetSumRecursion(int[] arr, int currentIndex, int sum, Map<Integer, Boolean> memo) {
         if (memo.containsKey(sum)) return memo.get(sum);
         if (sum == 0) return true;
         if (sum < 0) return false;
+        //if (currentIndex >= arr.length) return false;
 
 
-        for (int i = 0; i < arr.length; i++){
+        for (int i = currentIndex; i < arr.length; i++) {
             int remainder = sum - arr[i];
-            if (subsetSumRecursion(arr,remainder,memo)){
-                memo.put(remainder,true);
+            if (subsetSumRecursion(arr, i+1,remainder, memo)) {
+                memo.put(remainder, true);
                 return true;
             }
+
         }
 
-        memo.put(sum,false);
+        memo.put(sum, false);
         return false;
     }
 
@@ -85,7 +87,7 @@ public class SubsetSum {
                 if (j - arr[i - 1] >= 0) {
                     T[i][j] = T[i - 1][j - arr[i - 1]] || T[i - 1][j];
                 } else {
-                    T[i][j] = T[i-1][j];
+                    T[i][j] = T[i - 1][j];
                 }
             }
         }

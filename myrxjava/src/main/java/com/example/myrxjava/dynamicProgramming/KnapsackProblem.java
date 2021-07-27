@@ -7,6 +7,10 @@ import java.util.Map;
  * @author Admin
  * This algorithm calculates the max values of item to pick to
  * fit into a bag of capacity W
+ *
+ *  References -
+ *  * http://www.geeksforgeeks.org/dynamic-programming-set-10-0-1-knapsack-problem/
+ *  * https://en.wikipedia.org/wiki/Knapsack_problem
  **/
 public class KnapsackProblem {
 
@@ -57,19 +61,19 @@ public class KnapsackProblem {
     public int topDownRecursive(int values[], int weights[], int W) {
         //map of key(remainingWeight, remainingCount) to maximumValue they can get.
         Map<Index, Integer> map = new HashMap<>();
-        return topDownRecursiveUtil(values, weights, W, values.length, 0, map);
+        return topDownRecursiveUtil(values, weights, W, 0, map);
     }
 
-    public int topDownRecursiveUtil(int values[], int weights[], int remainingWeight, int totalItems, int currentItem, Map<Index, Integer> map) {
+    public int topDownRecursiveUtil(int values[], int weights[], int remainingWeight, int currentItem, Map<Index, Integer> map) {
         //if currentItem exceeds total item count or remainingWeight is less than 0 then
         //just return with 0;
-        if(currentItem >= totalItems || remainingWeight <= 0) {
+        if(currentItem >= weights.length || remainingWeight <= 0) {
             return 0;
         }
 
         //fom a key based on remainingWeight and remainingCount
         Index key = new Index();
-        key.remainingItems = totalItems - currentItem -1;
+        key.remainingItems = weights.length - currentItem -1;
         key.remainingWeight = remainingWeight;
 
         //see if key exists in map. If so then return the maximumValue for key stored in map.
@@ -79,12 +83,12 @@ public class KnapsackProblem {
         int maxValue;
         //if weight of item is more than remainingWeight then try next item by skipping current item
         if(remainingWeight < weights[currentItem]) {
-            maxValue = topDownRecursiveUtil(values, weights, remainingWeight, totalItems, currentItem + 1, map);
+            maxValue = topDownRecursiveUtil(values, weights, remainingWeight, currentItem + 1, map);
         } else {
             //try to get maximumValue of either by picking the currentItem or not picking currentItem
             maxValue = Math.max(values[currentItem] + topDownRecursiveUtil(values, weights,
-                    remainingWeight - weights[currentItem], totalItems, currentItem + 1, map),
-                    topDownRecursiveUtil(values, weights, remainingWeight, totalItems, currentItem + 1, map));
+                    remainingWeight - weights[currentItem], currentItem + 1, map),
+                    topDownRecursiveUtil(values, weights, remainingWeight, currentItem + 1, map));
         }
         //memoize the key with maxValue found to avoid recalculation
         map.put(key, maxValue);

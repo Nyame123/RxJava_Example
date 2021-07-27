@@ -9,6 +9,9 @@ package com.example.myrxjava.dynamicProgramming;
  *     T[i][j] = T[i-1][j-1] + 1;
  * }else{
  *      T[i][j] = Math.max(T[i-1][j] , T[i][j-1];
+ *
+ *      References
+ *      http://www.geeksforgeeks.org/dynamic-programming-set-4-longest-common-subsequence/
  * }
 */
 public class LeastCommonSubsequence {
