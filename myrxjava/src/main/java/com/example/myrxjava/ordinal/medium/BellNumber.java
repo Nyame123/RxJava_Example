@@ -1,6 +1,10 @@
-package com.example.myrxjava.ordinal;
+package com.example.myrxjava.ordinal.medium;
 
 /**
+ *
+ * Bell Numbers (Number of ways to Partition a Set)
+ * Difficulty Level : Medium
+ *
  * Bell number is an algorithm that helps to
  * find the number of ways to partition a given
  * sequence

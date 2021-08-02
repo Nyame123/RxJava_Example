@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal;
+package com.example.myrxjava.ordinal.easy;
 
 public class PalindromicString {
 

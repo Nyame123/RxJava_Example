@@ -1,8 +1,12 @@
-package com.example.myrxjava.ordinal;
+package com.example.myrxjava.ordinal.medium;
 
 import java.math.BigInteger;
 
 /**
+ *
+ * Program for nth Catalan Number
+ * Difficulty Level : Medium
+ *
  * Application of Catalan Number algorithm can be read from below link
  * https://www.geeksforgeeks.org/applications-of-catalan-numbers/
  * Catalan numbers are a sequence of natural numbers that occurs in many interesting counting problems like following.
@@ -15,6 +19,9 @@ import java.math.BigInteger;
  * Given a number n, return the number of ways you can draw n chords in a circle with 2 x n points such that no 2 chords intersect.
  * See this for more applications.
  * The first few Catalan numbers for n = 0, 1, 2, 3, … are 1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, …
+ *
+ * https://www.geeksforgeeks.org/program-nth-catalan-number/?ref=lbp
+ *
  **/
 public class CatalanNumber {
 
