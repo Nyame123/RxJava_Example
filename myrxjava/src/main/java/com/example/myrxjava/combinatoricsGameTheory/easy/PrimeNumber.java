@@ -1,4 +1,4 @@
-package com.example.myrxjava.combinatoricsGameTheory;
+package com.example.myrxjava.combinatoricsGameTheory.easy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class PrimeNumber {
         }
 
 
-        if(isPrimeMeth1(53))
+        if(isPrime(9))
             System.out.println(" true");
         else
             System.out.println(" false");
@@ -81,7 +81,7 @@ public class PrimeNumber {
       return true;
     }
 
-    //Time complexity of this solution is O(n)
+    //Time complexity of this solution is O(sqrt(n))
     static boolean isPrimeMeth2(int n) {
         // Corner case
         if (n <= 1) return false;

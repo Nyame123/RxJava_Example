@@ -1,10 +1,15 @@
-package com.example.myrxjava.combinatoricsGameTheory;
+package com.example.myrxjava.combinatoricsGameTheory.hard;
 
 import java.util.Vector;
 
 import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
-
+/**
+ * Segmented Sieve
+ * Difficulty Level : Hard
+ * Last Updated : 26 Apr, 2021
+ * Given a number n, print all primes smaller than n. For example, if the given number is 10, output 2, 3, 5, 7.
+ **/
 public class SegmentedSieve {
 
     public static void main(String[] args) {

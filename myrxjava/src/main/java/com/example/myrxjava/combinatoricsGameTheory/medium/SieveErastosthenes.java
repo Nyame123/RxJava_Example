@@ -1,29 +1,24 @@
-package com.example.myrxjava.combinatoricsGameTheory;
-
-import java.util.Vector;
-
-import static java.lang.Math.floor;
-import static java.lang.Math.sqrt;
+package com.example.myrxjava.combinatoricsGameTheory.medium;
 
 /**
  * Sieve of Eratosthenes
  * Difficulty Level : Medium
  * Last Updated : 31 Mar, 2021
- *
+ * <p>
  * Given a number n, print all primes smaller than or equal to n. It is also given that n is a small number.
- *
+ * <p>
  * Example:
- *
+ * <p>
  * Input : n =10
  * Output : 2 3 5 7
- *
+ * <p>
  * Input : n = 20
  * Output: 2 3 5 7 11 13 17 19
- *
+ * <p>
  * The sieve of Eratosthenes is one of the most efficient ways to find all
  * primes smaller than n when n is smaller than 10 million or so (Ref Wiki).
- *
- *https://www.geeksforgeeks.org/sieve-of-eratosthenes/
+ * <p>
+ * https://www.geeksforgeeks.org/sieve-of-eratosthenes/
  **/
 public class SieveErastosthenes {
 
@@ -50,7 +45,7 @@ public class SieveErastosthenes {
         for (int i = 0; i <= n; i++)
             prime[i] = true;
 
-        for (int p = 2; p * p <= n; p++){
+        for (int p = 2; p * p <= n; p++) {
             // If prime[p] is not changed, then it is a
             // prime
             if (prime[p]) {
