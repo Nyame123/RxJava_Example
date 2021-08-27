@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal.hard.GreedyAlg;
+package com.example.myrxjava.treeAndGraph.medium;
 
 import com.example.myrxjava.ordinal.graphs.BinaryMinHeap;
 import com.example.myrxjava.ordinal.graphs.Edge;

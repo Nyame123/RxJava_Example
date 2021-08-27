@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal.medium.GreedyAlg;
+package com.example.myrxjava.treeAndGraph.hard;
 
 import com.example.myrxjava.ordinal.graphs.BinaryMinHeap;
 import com.example.myrxjava.ordinal.graphs.Edge;
@@ -18,7 +18,7 @@ import java.util.Map;
  * References
  * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
  * CLRS book*/
-public class DijkstraShortestPath {
+public class DijkstraShortestPathMinHeap {
 
     public Map<Vertex<Integer>,Integer> shortestPath(Graph<Integer> graph, Vertex<Integer> sourceVertex){
 
@@ -108,7 +108,7 @@ public class DijkstraShortestPath {
         graph.addEdge(6, 4, 2);
         graph.addEdge(3, 4, 3);
 
-        DijkstraShortestPath dsp = new DijkstraShortestPath();
+        DijkstraShortestPathMinHeap dsp = new DijkstraShortestPathMinHeap();
         Vertex<Integer> sourceVertex = graph.getVertex(1);
         Map<Vertex<Integer>,Integer> distance = dsp.shortestPath(graph, sourceVertex);
         System.out.print(distance);

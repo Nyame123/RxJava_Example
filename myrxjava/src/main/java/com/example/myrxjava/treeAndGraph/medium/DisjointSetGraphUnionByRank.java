@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal.medium;
+package com.example.myrxjava.treeAndGraph.medium;
 
 /**
  * Union-Find Algorithm | Set 2 (Union By Rank and Path Compression)
@@ -51,7 +51,7 @@ public class DisjointSetGraphUnionByRank {
         /* Let us create the following graph
             0
             | \
-            | \
+            |   \
             1-----2 */
 
         int V = 3, E = 3;
@@ -72,8 +72,7 @@ public class DisjointSetGraphUnionByRank {
         if (graph.isCycle(graph) == 1)
             System.out.println("Graph contains cycle");
         else
-            System.out.println(
-                    "Graph doesn't contain cycle");
+            System.out.println("Graph doesn't contain cycle");
     }
 
     // class to represent edge
@@ -92,8 +91,7 @@ public class DisjointSetGraphUnionByRank {
     // path compression technique)
     int find(Subset[] subsets, int i) {
         if (subsets[i].parent != i)
-            subsets[i].parent =
-                    find(subsets, subsets[i].parent);
+            subsets[i].parent = find(subsets, subsets[i].parent);
         return subsets[i].parent;
     }
 

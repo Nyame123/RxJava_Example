@@ -27,12 +27,12 @@ public class PrimeNumber {
 
     public static void main(String[] args) {
 
-        for (Integer x : primeNumbers(150)) {
+       /* for (Integer x : primeNumbers(150)) {
             System.out.printf("%d ", x);
-        }
+        }*/
 
 
-        if(isPrime(9))
+        if(isPrime(7))
             System.out.println(" true");
         else
             System.out.println(" false");
@@ -100,7 +100,7 @@ public class PrimeNumber {
         if (n <= 1) return false;
 
         // Check from 2 to n-1
-        for (int i = 2; i <= n; i++)
+        for (int i = 2; i < n; i++)
             if (n % i == 0)
                 return false;
 

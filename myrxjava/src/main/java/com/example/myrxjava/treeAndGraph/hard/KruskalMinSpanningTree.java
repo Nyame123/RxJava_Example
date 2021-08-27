@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal.hard.GreedyAlg;
+package com.example.myrxjava.treeAndGraph.hard;
 
 import java.util.Arrays;
 
@@ -14,16 +14,30 @@ import java.util.Arrays;
  * The weight of a spanning tree is the sum of weights given to each edge of the spanning tree.
  * How many edges does a minimum spanning tree has?
  * A minimum spanning tree has (V – 1) edges where V is the number of vertices in the given graph.
- *
+ * <p>
  * Below are the steps for finding MST using Kruskal’s algorithm
- *
+ * <p>
  * 1. Sort all the edges in non-decreasing order of their weight.
  * 2. Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it.
  * 3. Repeat step#2 until there are (V-1) edges in the spanning tree.
- *
+ * <p>
  * Step #2 uses the Union-Find algorithm to detect cycles. So we recommend reading the following post as a prerequisite.
  **/
 public class KruskalMinSpanningTree {
+
+    int V, E; // V-> no. of vertices & E->no.of edges
+    Edge edge[]; // collection of all edges
+
+    // Creates a graph with V vertices and E edges
+    KruskalMinSpanningTree(int v, int e) {
+        V = v;
+        E = e;
+        edge = new Edge[E];
+        for (int i = 0; i < e; ++i)
+            edge[i] = new Edge();
+    }
+
+    ;
 
     // Driver Code
     public static void main(String[] args) {
@@ -69,36 +83,6 @@ public class KruskalMinSpanningTree {
         graph.KruskalMST();
     }
 
-    // A class to represent a graph edge
-    class Edge implements Comparable<Edge> {
-        int src, dest, weight;
-
-        // Comparator function used for
-        // sorting edgesbased on their weight
-        public int compareTo(Edge compareEdge)
-        {
-            return this.weight - compareEdge.weight;
-        }
-    }
-
-    // A class to represent a subset for
-    // union-find
-    class Subset {
-        int parent, rank;
-    };
-
-    int V, E; // V-> no. of vertices & E->no.of edges
-    Edge edge[]; // collection of all edges
-
-    // Creates a graph with V vertices and E edges
-    KruskalMinSpanningTree(int v, int e) {
-        V = v;
-        E = e;
-        edge = new Edge[E];
-        for (int i = 0; i < e; ++i)
-            edge[i] = new Edge();
-    }
-
     // A utility function to find set of an
     // element i (uses path compression technique)
     int find(Subset subsets[], int i) {
@@ -131,7 +115,6 @@ public class KruskalMinSpanningTree {
             subsets[xroot].rank++;
         }
     }
-
 
     /**
      * The main function to construct MST using Kruskal's algorithm
@@ -177,16 +160,16 @@ public class KruskalMinSpanningTree {
         while (e < V - 1) {
             // Step 2: Pick the smallest edge. And increment
             // the index for next iteration
-            Edge next_edge = edge[i++];
+            Edge nextEdge = edge[i++];
 
-            int x = find(subsets, next_edge.src);
-            int y = find(subsets, next_edge.dest);
+            int x = find(subsets, nextEdge.src);
+            int y = find(subsets, nextEdge.dest);
 
             // If including this edge does't cause cycle,
             // include it in result and increment the index
             // of result for next edge
             if (x != y) {
-                result[e++] = next_edge;
+                result[e++] = nextEdge;
                 Union(subsets, x, y);
             }
             // Else discard the next_edge
@@ -205,5 +188,22 @@ public class KruskalMinSpanningTree {
         }
         System.out.println("Minimum Cost Spanning Tree "
                 + minimumCost);
+    }
+
+    // A class to represent a graph edge
+    class Edge implements Comparable<Edge> {
+        int src, dest, weight;
+
+        // Comparator function used for
+        // sorting edgesbased on their weight
+        public int compareTo(Edge compareEdge) {
+            return this.weight - compareEdge.weight;
+        }
+    }
+
+    // A class to represent a subset for
+    // union-find
+    class Subset {
+        int parent, rank;
     }
 }

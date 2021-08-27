@@ -1,4 +1,4 @@
-package com.example.myrxjava.ordinal.medium;
+package com.example.myrxjava.treeAndGraph.medium;
 /**
  * Disjoint Set (Or Union-Find) | Set 1 (Detect Cycle in an Undirected Graph)
  * Difficulty Level : Medium

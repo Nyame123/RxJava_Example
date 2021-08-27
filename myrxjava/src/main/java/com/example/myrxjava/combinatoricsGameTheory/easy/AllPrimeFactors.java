@@ -25,8 +25,8 @@ public class AllPrimeFactors {
 
     public static void main(String[] args) {
         int n = 12246;
-//        allPrimeFactor(n);
-        runSieveAlgo();
+        allPrimeFactor(n);
+        //runSieveAlgo();
     }
 
     static void runSieveAlgo(){
