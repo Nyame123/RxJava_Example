@@ -36,13 +36,43 @@ public class LongestSpanSum {
 
     // Driver method to test the above function
     public static void main(String[] args) {
-        int[] arr1 = new int[]{0, 0, 0};
-        int[] arr2 = new int[]{1, 1, 1};
+        int[] arr1 = new int[]{0, 1, 0, 1, 1, 1, 1};
+        int[] arr2 = new int[]{1, 1, 1, 1, 1, 0, 1};
 
         System.out.print("Length of the longest common span with same sum is ");
         System.out.println(longestCommonSumMeth2(arr1,arr2,arr1.length));
+//        longestSpanSumHashing(arr1,arr2);
     }
 
+    //finding the sum of the longest span using hashing
+    static void longestSpanSumHashing(int[] arr1, int[] arr2){
+        int n = arr1.length;
+        int maxIndex = 0;
+        HashMap<Integer,Integer> sumMap = new HashMap<>();
+        int sum = 0;
+        for(int i = 0; i < n; i++){
+            int dif = arr1[i] - arr2[i];
+            //sum += + Math.abs(dif);
+            sum += dif;
+
+            if(sum == 0){
+                maxIndex = Math.max(maxIndex,i+1);
+            }
+
+            //go thru the previous stored values;
+            if(sumMap.containsKey(sum)){
+                int key = sumMap.get(sum);
+                maxIndex = Math.max(maxIndex,i-key);
+            }else{
+                sumMap.put(sum,i);
+            }
+
+
+        }
+
+        System.out.println(maxIndex);
+
+    }
 
     // Returns largest common subarray with equal
     // number of 0s and 1s
@@ -95,7 +125,7 @@ public class LongestSpanSum {
         // indexes of all possible diff values. diff[i]
         // would store starting and ending points for
         // difference "i-n"
-        int diff[] = new int[2*n+1];
+        int diff[] = new int[n];
 
         // Initialize all starting and ending values as -1.
         for (int i = 0; i < diff.length; i++) {

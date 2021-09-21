@@ -1,5 +1,7 @@
 package com.example.myrxjava.search.medium;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * QuickSort
  * Difficulty Level : Medium
@@ -94,4 +96,62 @@ public class QuickSort {
     }
 
 
+}
+
+class RandomizedQuickSort {
+
+    public static void main(String[] args) {
+        int[] arr = {10, 32, 7, 8, 9, 1, 5};
+        int n = arr.length;
+
+        quickSort(arr, 0, n - 1);
+        System.out.println("Sorted array: ");
+        QuickSort.printArray(arr, n);
+    }
+
+    static void quickSort(int[] arr, int p, int r) {
+        if (p < r) {
+            int pivot = randomizedPartition(arr, p, r);
+
+            quickSort(arr, p, pivot - 1);
+            quickSort(arr, pivot + 1, r);
+
+        }
+
+    }
+
+
+    static int randomizedPartition(int[] arr, int p,int r){
+        int random2 = ThreadLocalRandom.current().nextInt(p, r + 1);
+        int random = (int) (p + Math.random() * ( r - p));
+        swap(arr,random,r);
+       return partition(arr,p,r);
+    }
+
+
+    static int partition(int[] arr, int p, int r) {
+        int pivot = arr[r];
+        int i = p - 1;
+        for (int j = p; j <= r - 1; j++) {
+            if (arr[j] < pivot) {
+                i = i + 1;
+                if (i != j)
+                    swap(arr, i, j);
+
+            }
+
+        }
+
+        swap(arr, i + 1, r);
+        return i + 1;
+
+    }
+
+
+    static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+
+    }
 }

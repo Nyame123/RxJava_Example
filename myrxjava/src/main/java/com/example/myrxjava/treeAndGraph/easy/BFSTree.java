@@ -1,5 +1,7 @@
 package com.example.myrxjava.treeAndGraph.easy;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
@@ -35,6 +37,7 @@ public class BFSTree {
         // call levels function with source as 0
         printLevels(graph, V, 0);
     }
+
     // function to determine level of each node starting
 // from x using BFS
     static void printLevels(Vector<Vector<Integer>> graph, int V, int x) {
@@ -90,3 +93,136 @@ public class BFSTree {
 
 
 }
+
+
+//Level of vertices
+class LevelBFS {
+
+    //using adjacency List
+    static ArrayList<Integer>[] graph;
+
+    LevelBFS(int n) {
+        graph = new ArrayList[n];
+        //initialize the graph
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+    }
+
+    public static void main(String[] args) {
+        int V = 8;
+
+        LevelBFS levelBFS = new LevelBFS(V);
+
+        addEdge(0, 1);
+        addEdge(0, 2);
+        addEdge(1, 3);
+        addEdge(1, 4);
+        addEdge(1, 5);
+        addEdge(2, 5);
+        addEdge(2, 6);
+        addEdge(6, 7);
+        boolean[] visited = new boolean[V];
+        findLevel(0, visited);
+
+    }
+
+    static void addEdge(int u, int v) {
+        graph[u].add(v);
+        graph[v].add(u);
+    }
+
+    static void findLevel(int start, boolean[] visited) {
+        HashMap<Integer, Integer> level = new HashMap<>();
+        Queue<Integer> que = new LinkedList<Integer>();
+
+        int count = 0;
+        que.add(start);
+        level.put(start, count);
+        while (!que.isEmpty()) {
+            int current = que.remove();
+            visited[current] = true;
+            for (int i = 0; i < graph[current].size(); i++) {
+                count = level.get(current) + 1;
+                int destination = graph[current].get(i);
+                if (!visited[destination]) {
+                    que.add(graph[current].get(i));
+                    level.put(graph[current].get(i), count);
+                }
+
+            }
+
+        }
+
+        for (Integer k : level.keySet()) {
+            System.out.print(k + " ---> " + level.get(k));
+            System.out.println();
+        }
+
+    }
+
+}
+
+class BinaryTreeDistance {
+
+    public static void main(String[] args) {
+        int n = 7;
+        Node root = new Node(5);
+        root.left = new Node(4);
+        root.right = new Node(6);
+        root.left.left = new Node(3);
+        root.left.right = new Node(7);
+        root.left.left.left = new Node(1);
+        root.left.left.right = new Node(2);
+
+        distanceFromRoot(root, n);
+    }
+
+    static void distanceFromRoot(Node x, int size) {
+
+        int[] distance = new int[size + 1];
+        Queue<Node> que = new LinkedList<>();
+
+        distance[x.data] = 0;
+        que.add(x);
+
+        while (!que.isEmpty()) {
+            Node c = que.remove();
+            int nextDis = distance[c.data] + 1;
+            if (c.left != null) {
+                distance[c.left.data] = nextDis;
+                que.add(c.left);
+            }
+
+            if (c.right != null) {
+                distance[c.right.data] = nextDis;
+                que.add(c.right);
+            }
+
+
+        }
+
+        for (int i = 1; i <= size; i++) {
+            System.out.print(i + "--->" + distance[i]);
+            System.out.println();
+        }
+
+
+    }
+
+    static class Node {
+        int data;
+        Node left;
+        Node right;
+
+        Node(int d) {
+            data = d;
+            left = null;
+            right = null;
+        }
+    }
+
+
+}
+
+

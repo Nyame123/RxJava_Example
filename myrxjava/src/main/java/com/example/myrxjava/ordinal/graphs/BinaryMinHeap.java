@@ -29,7 +29,7 @@ public class BinaryMinHeap<T> {
         heap.add(5, "Roy");
         heap.add(6, "NTF");
         heap.add(2, "AFR");
-        heap.decrease("Pramila", 1);
+        //heap.decrease("Pramila", 1);
         heap.printHeap();
         heap.printPositionMap();
     }
@@ -193,4 +193,145 @@ public class BinaryMinHeap<T> {
         public int weight;
         public T key;
     }
+}
+
+class BinaryMinHeap1{
+
+    static class Node{
+        int data;
+        Node left = null;
+        Node right = null;
+
+        Node(int d){
+            this.data = d;
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryMinHeap1  heap = new BinaryMinHeap1();
+        heap.addToHeap(3);
+        heap.addToHeap(4);
+        heap.addToHeap(8);
+        heap.addToHeap(10);
+        heap.addToHeap(5);
+        heap.addToHeap(6);
+        heap.addToHeap(2);
+        heap.decrease(5, 1);
+        heap.extractMin();
+        heap.print();
+    }
+
+    List<Node> heap = new ArrayList<>();
+
+    //swap contents
+    static void swap(Node n1, Node n2){
+        int temp = n1.data;
+        n1.data = n2.data;
+        n2.data = temp;
+
+    }
+
+    //add data to heap
+    void addToHeap(int data){
+        Node newNode = new Node(data);
+        heap.add(newNode);
+        int size = heap.size();
+        int current = size - 1;
+        int parentIndex = (current - 1) / 2;
+
+        while(parentIndex >= 0){
+            Node currentNode = heap.get(current);
+            Node parentNode = heap.get(parentIndex);
+            if(parentNode.data > currentNode.data){
+                //swap the contents
+                swap(currentNode,parentNode);
+                current = parentIndex;
+                parentIndex = (parentIndex - 1) / 2;
+
+            }else{
+                break;
+            }
+
+        }
+    }
+
+    //Decrease data
+    void decrease(int pos,int data){
+        Node temp = heap.get(pos);
+        temp.data = data;
+
+        int current = pos;
+        int parentIndex = (current - 1) / 2;
+
+        while(parentIndex >= 0){
+            Node currentNode = heap.get(current);
+            Node parentNode = heap.get(parentIndex);
+            if(parentNode.data > currentNode.data){
+                //swap the contents
+                swap(currentNode,parentNode);
+                current = parentIndex;
+                parentIndex = (parentIndex - 1) / 2;
+            }else{
+                break;
+            }
+
+        }
+
+    }
+
+    //extract Min
+    Node extractMin(){
+        int size = heap.size();
+        Node newNode = new Node(heap.get(0).data);
+        newNode.left = heap.get(0).left;
+        newNode.right = heap.get(0).right;
+
+        Node lastNode = heap.get(size-1);
+        heap.get(0).data = lastNode.data;
+        heap.get(0).left = lastNode.left;
+        heap.get(0).right = lastNode.right;
+
+        heap.remove(size-1);
+        size--;
+        int currentIndex = 0;
+        while(true){
+            int left = 2*currentIndex + 1;
+            int right = 2*currentIndex + 2;
+
+            if(left >= size){
+                break;
+            }
+
+            if(right >= size){
+                right = left;
+            }
+
+
+            int leftMost;
+            if (heap.get(left).data <= heap.get(right).data){
+                leftMost = left;
+            }else{
+                leftMost = right;
+            }
+            if(heap.get(currentIndex).data > heap.get(leftMost).data){
+                swap(heap.get(currentIndex),heap.get(leftMost));
+                currentIndex = leftMost;
+
+            }else{
+                break;
+            }
+
+        }
+
+        return newNode;
+
+    }
+
+    void print(){
+        for (int i = 0; i < heap.size(); i++){
+            System.out.print(heap.get(i).data +" ");
+        }
+    }
+
+
 }

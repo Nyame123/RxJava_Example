@@ -15,8 +15,8 @@ import static java.lang.Math.sqrt;
 public class FactorsOfNumber {
 
     public static void main(String args[]) {
-        System.out.println("The divisors of 100 are: ");
-        printDivisorsOrderedPairMeth1(100);
+        //System.out.println("The divisors of 100 are: ");
+        //printDivisorsOrderedPairMeth1(100);
 
         System.out.printf("\nSmallest Kth factor = %d",kThSmallestFactor(4,3));
     }

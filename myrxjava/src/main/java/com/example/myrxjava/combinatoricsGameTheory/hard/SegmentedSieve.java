@@ -45,9 +45,10 @@ public class SegmentedSieve {
 
         // Print all prime numbers
         for (int i = 2; i <= n; i++) {
-            if (prime[i])
+            if (prime[i]) {
                 primes.add(i);
-            System.out.print(i + " ");
+                System.out.print(i + " ");
+            }
         }
     }
 
@@ -102,7 +103,7 @@ public class SegmentedSieve {
 
             // Numbers which are not marked as false are prime
             for (int i = low; i<high; i++)
-                if (mark[i - low] == true)
+                if (mark[i - low])
                     System.out.print(i + "  ");
 
             // Update low and high for next segment

@@ -25,14 +25,42 @@ public class AllPrimeFactors {
 
     public static void main(String[] args) {
         int n = 12246;
-        allPrimeFactor(n);
-        //runSieveAlgo();
+//        allPrimeFactors(n);
+        runSieveAlgo();
     }
+
+
+    static void allPrimeFactors(int n){
+
+
+        while (n % 2 == 0){
+            System.out.print(2+" ");
+            n /= 2;
+        }
+        int x = 3;
+
+        while(x < Math.sqrt(n)){
+
+            if(n % x == 0){
+                System.out.print(x+" ");
+                n /= x;
+
+            }else{
+                x += 2;
+            }
+        }
+
+        if (n > 2){
+            System.out.print(n);
+        }
+
+    }
+
 
     static void runSieveAlgo(){
         // precalculating Smallest Prime Factor
         sieve();
-        int x = 56;
+        int x = 12246;
         System.out.print("prime factorization for " + x + " : ");
 
         // calling getFactorization function
@@ -64,7 +92,7 @@ public class AllPrimeFactors {
         for (int i=2; i<MAXN; i+=2)
             spf[i] = 2;
 
-        for (int i=3; i*i<MAXN; i++) {
+        for (int i=3; i*i<MAXN; i+=2) {
             // checking if i is prime
             if (spf[i] == 0) {
                 // marking SPF for all numbers divisible by i
@@ -76,6 +104,28 @@ public class AllPrimeFactors {
                         spf[j] = i;
             }
         }
+    }
+
+    static int[] allSmallestPrimes(int n){
+        int[] spf = new int[n];
+
+        for(int i = 2; i < n; i += 2){
+            spf[i] = 2;
+        }
+
+
+        for(int i=3; i*i <= n; i += 2){
+            if(spf[i] == 0){
+                for(int j = i*i; j < n; j+=i){
+                    if(spf[j] == 0){
+                        spf[j] = i;
+                    }
+                }
+            }
+
+        }
+
+        return spf;
     }
 
     // A O(log n) function returning primefactorization

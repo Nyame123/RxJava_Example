@@ -10,23 +10,23 @@ import java.util.Arrays;
  * 1 coin and can acquire that coin. In addition, once you have paid for a coin, we can choose at most K
  * more coins and can acquire those for free. The task is to find the minimum amount required to acquire
  * all the N coins for a given value of K.
- *
+ * <p>
  * Examples :
- *
+ * <p>
  * Input : coin[] = {100, 20, 50, 10, 2, 5},
- *         k = 3
+ * k = 3
  * Output : 7
- *
+ * <p>
  * Input : coin[] = {1, 2, 5, 10, 20, 50},
- *         k = 3
+ * k = 3
  * Output : 3
- *
+ * <p>
  * https://www.geeksforgeeks.org/minimum-cost-for-acquiring-all-coins-with-k-extra-coins-allowed-with-every-coin/
  **/
 public class MinCostAcquiringKExtraCoin {
 
     public static void main(String[] args) {
-        int []coin = {8, 5, 3, 10, 2, 1, 15, 25};
+        int[] coin = {8, 5, 3, 10, 2, 1, 15, 25};
         int n = coin.length;
 
         preprocess(coin, n);
@@ -35,7 +35,7 @@ public class MinCostAcquiringKExtraCoin {
         System.out.println(minCost(coin, n, k));
 
         k = 7;
-        System.out.println( minCost1(coin, n, k));
+        System.out.println(minCost1(coin, n, k));
     }
 
     /**
@@ -45,10 +45,10 @@ public class MinCostAcquiringKExtraCoin {
      * can be found by simply sorting all the N values in increasing order.
      * If we should check for time complexity (n log n) is for sorting element and (k) is for adding the total amount.
      * So, finally Time Complexity: O(n log n).
-     *  ==================================================================
-     *  function to calculate min cost
-     *     Time complexity = O(n log n)
-     * */
+     * ==================================================================
+     * function to calculate min cost
+     * Time complexity = O(n log n)
+     */
     static int minCost(int coin[], int n, int k) {
 
         // sort the coins value
@@ -56,7 +56,7 @@ public class MinCostAcquiringKExtraCoin {
 
         // calculate no. of
         // coins needed
-        int coins_needed = (int)Math.ceil(1.0 * n / (k + 1));
+        int coins_needed = (int) Math.ceil(1.0 * n / (k + 1));
 
         // calculate sum of
         // all selected coins
@@ -70,16 +70,15 @@ public class MinCostAcquiringKExtraCoin {
 
 
     // Converts coin[] to prefix sum array
+
     /**
-     *
      * How to handle multiple queries for a single predefined array?
      * In this case, if you are asked to find the above answer for many values of K,
      * you have to compute it fast and our time complexity got increased as per the number of queries for k.
      * For the purpose to serve, we can maintain a prefix sum array after sorting
      * all the N values and can answer queries easily and quickly.
      **/
-    static void preprocess(int []coin, int n)
-    {
+    static void preprocess(int[] coin, int n) {
 
         // sort the coins value
         Arrays.sort(coin);
@@ -92,12 +91,12 @@ public class MinCostAcquiringKExtraCoin {
     // Function to calculate min cost when we
     // can get k extra coins after paying
     // cost of one.
-    static int minCost1(int []coin, int n, int k) {
+    static int minCost1(int[] coin, int n, int k) {
 
         // calculate no. of coins needed
-        int coins_needed =(int) Math.ceil(1.0 * n / (k + 1));
+        int coinsNeeded = (int) Math.ceil(1.0 * n / (k + 1));
 
         // return sum of from prefix array
-        return coin[coins_needed - 1];
+        return coin[coinsNeeded - 1];
     }
 }

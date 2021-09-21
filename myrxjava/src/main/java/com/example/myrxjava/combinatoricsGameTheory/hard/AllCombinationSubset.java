@@ -102,7 +102,7 @@ public class AllCombinationSubset {
         //In case there is duplicates
         Arrays.sort(arr);
         // Print all combination using temporary array 'data[]'
-        //combinationUtil(arr, data, 0, n-1, 0, r);
-        combinationUtil(arr, n-1, r,0,data, 0);
+//        combinationUtil(arr, data, 0, n-1, 0, r);
+        combinationUtil(arr, n, r,0,data, 0);
     }
 }

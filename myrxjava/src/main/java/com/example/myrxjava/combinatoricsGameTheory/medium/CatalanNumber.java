@@ -3,10 +3,9 @@ package com.example.myrxjava.combinatoricsGameTheory.medium;
 import java.math.BigInteger;
 
 /**
- *
  * Program for nth Catalan Number
  * Difficulty Level : Medium
- *
+ * <p>
  * Application of Catalan Number algorithm can be read from below link
  * https://www.geeksforgeeks.org/applications-of-catalan-numbers/
  * Catalan numbers are a sequence of natural numbers that occurs in many interesting counting problems like following.
@@ -19,9 +18,8 @@ import java.math.BigInteger;
  * Given a number n, return the number of ways you can draw n chords in a circle with 2 x n points such that no 2 chords intersect.
  * See this for more applications.
  * The first few Catalan numbers for n = 0, 1, 2, 3, … are 1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, …
- *
+ * <p>
  * https://www.geeksforgeeks.org/program-nth-catalan-number/?ref=lbp
- *
  **/
 public class CatalanNumber {
 
@@ -59,6 +57,26 @@ public class CatalanNumber {
 
         // return 2nCn/(n+1)
         System.out.println("The catalan number of " + n + " = " + c / (n + 1));
+    }
+
+
+    static long normalCombination(int n, int k) {
+
+        if (k > n - k) {
+            k = n - k;
+        }
+        int res = 1;
+        int p = 1;
+        while (p <= k) {
+            res *= n;
+            res/= p;
+            n--;
+            p++;
+
+        }
+
+        return res;
+
     }
 
 

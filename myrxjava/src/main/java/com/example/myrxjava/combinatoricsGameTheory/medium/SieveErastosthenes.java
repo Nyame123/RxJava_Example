@@ -1,5 +1,7 @@
 package com.example.myrxjava.combinatoricsGameTheory.medium;
 
+import java.util.Arrays;
+
 /**
  * Sieve of Eratosthenes
  * Difficulty Level : Medium
@@ -28,7 +30,30 @@ public class SieveErastosthenes {
                 "Following are the prime numbers ");
         System.out.println("smaller than or equal to " + n);
 
-        sieveOfEratosthenes(n);
+        normalSieveAlgo(n);
+
+    }
+
+    static void normalSieveAlgo(int n){
+
+        boolean[] prime = new boolean[n+1];
+
+        for(int i = 0; i <=n; i++){
+            prime[i] = true;
+        }
+
+        for(int i = 2; i*i <= n; i++){
+            if(prime[i]){
+                for(int j = i*i; j <=n; j+=i){
+                    prime[j] = false;
+                }
+            }
+        }
+
+        for(int i=2; i <= n; i++){
+            if(prime[i])
+                System.out.print(i+" ");
+        }
 
     }
 

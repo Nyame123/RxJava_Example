@@ -148,3 +148,137 @@ public class LinkedListMergeSort {
     }
 
 }
+
+class MergedSortLinkedList {
+    Node head;
+
+    public static void main(String[] args) {
+        MergedSortLinkedList mergedSortLinkedList = new MergedSortLinkedList();
+
+        mergedSortLinkedList.addNode(15);
+        mergedSortLinkedList.addNode(5);
+        mergedSortLinkedList.addNode(20);
+        mergedSortLinkedList.addNode(13);
+        mergedSortLinkedList.addNode(32);
+        mergedSortLinkedList.addNode(34);
+        mergedSortLinkedList.addNode(31);
+        mergedSortLinkedList.addNode(37);
+        mergedSortLinkedList.addNode(2);
+        mergedSortLinkedList.addNode(12);
+        mergedSortLinkedList.addNode(22);
+        mergedSortLinkedList.addNode(23);
+
+        Node result = mergedSortLinkedList.mergeSort(mergedSortLinkedList.head);
+
+        mergedSortLinkedList.printList(result);
+    }
+
+
+    Node midList(Node head) {
+        Node slow = head;
+        Node current = head;
+        while (current.next != null && current.next.next != null) {
+            slow = slow.next;
+            current = current.next.next;
+        }
+
+        return slow;
+    }
+
+    Node mergeSort(Node left) {
+        if (left == null || left.next == null) {
+            return left;
+        }
+
+        Node middle = midList(left);
+        Node middleNext = middle.next;
+        middle.next = null;
+        Node l = mergeSort(left);
+        Node h = mergeSort(middleNext);
+        Node head = merge(l, h);
+        return head;
+    }
+
+    Node merge(Node left, Node right) {
+        Node head = new Node(0,null);
+        Node current = head;
+        while (left != null && right != null) {
+            if (left.data < right.data) {
+
+                current.next = left;
+                left = left.next;
+
+               /* Node temp = left.next;
+                left.next = null;
+                current = left;
+                left = temp;*/
+
+            } else {
+
+                current.next = right;
+                right = right.next;
+                /*Node temp = right.next;
+                right.next = null;
+                current = right;
+                right = temp;*/
+
+            }
+            current = current.next;
+            //append(current,head);
+
+        }
+
+        if (left != null) {
+            current.next = left;
+            //append(left, head);
+        }
+
+        if (right != null) {
+            current.next = right;
+            //append(right, head);
+        }
+
+        return head.next;
+
+
+    }
+
+    private void append(Node left, Node head) {
+        Node temp = head;
+        while (temp.next != null)
+            temp = temp.next;
+        temp.next = left;
+    }
+
+    void addNode(int data) {
+        Node node = new Node(data, null);
+        if (head == null)
+            head = node;
+        else {
+            append(node, head);
+        }
+    }
+
+    void printList(Node head) {
+        if (head == null) {
+            System.out.println("Null");
+        } else {
+            Node current = head;
+            while (current != null) {
+                System.out.print(current.data + " ");
+                current = current.next;
+            }
+        }
+    }
+
+    static class Node {
+        int data;
+        Node next;
+
+        Node(int d, Node n) {
+            this.data = d;
+            this.next = n;
+        }
+    }
+
+}

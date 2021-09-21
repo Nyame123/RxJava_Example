@@ -21,8 +21,36 @@ public class SumAllFactors {
 
     public static void main(String[] args) {
         int n = 12;
-        System.out.println(sumofFactors(n));
+        System.out.println(sumAllFactors(n));
     }
+    static long sumOfFactors(int n){
+        if(n == 1) return 1;
+        long factors = 0;
+        for(int i = 1; i*i < n; i++){
+            if(n % i == 0){
+                factors += i;
+                //n /= i;
+            }
+
+        }
+
+
+        for(int i = (int) Math.sqrt(n); i > 0; i--){
+            if(n % i == 0){
+                factors += n/i;
+                //n /= i;
+
+            }
+        }
+
+
+        return factors;
+
+    }
+
+
+
+
     // Function to calculate sum of all
     //divisors of a given number
     static int divSum(int n) {
@@ -50,6 +78,32 @@ public class SumAllFactors {
         // considers proper divisors greater
         // than 1.
         return (result + n + 1);
+
+    }
+
+    static long sumAllFactors(int n){
+
+        long res = 1;
+
+        for(int i = 2; i*i < n; i++){
+            long curTerm = 1;
+            long currSum = 1;
+            while(n % i == 0){
+                curTerm *= i;
+                currSum += curTerm;
+                n /= i;
+
+            }
+
+            res *= currSum;
+        }
+
+
+        if(n > 2){
+            res *= (1 + n);
+        }
+
+        return res;
 
     }
 
