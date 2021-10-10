@@ -1,4 +1,5 @@
 package com.example.myrxjava.combinatoricsGameTheory.hard;
+
 /**
  * Gaussian Elimination to Solve Linear Equations
  * Difficulty Level : Hard
@@ -6,30 +7,30 @@ package com.example.myrxjava.combinatoricsGameTheory.hard;
  * The article focuses on using an algorithm for solving a system of linear equations.
  * We will deal with the matrix of coefficients. Gaussian Elimination does not work
  * on singular matrices (they lead to division by zero).
- *
+ * <p>
  * Input: For N unknowns, input is an augmented
- *        matrix of size N x (N+1). One extra
- *        column is for Right Hand Side (RHS)
- *   mat[N][N+1] = {{3.0, 2.0,-4.0, 3.0},
- *                 {2.0, 3.0, 3.0, 15.0},
- *                 {5.0, -3, 1.0, 14.0}
- *                };
+ * matrix of size N x (N+1). One extra
+ * column is for Right Hand Side (RHS)
+ * mat[N][N+1] = {{3.0, 2.0,-4.0, 3.0},
+ * {2.0, 3.0, 3.0, 15.0},
+ * {5.0, -3, 1.0, 14.0}
+ * };
  * Output: Solution to equations is:
- *         3.000000
- *         1.000000
- *         2.000000
- *
+ * 3.000000
+ * 1.000000
+ * 2.000000
+ * <p>
  * Explanation:
  * Given matrix represents following equations
  * 3.0X1 + 2.0X2 - 4.0X3 =  3.0
  * 2.0X1 + 3.0X2 + 3.0X3 = 15.0
  * 5.0X1 - 3.0X2 +    X3 = 14.0
- *
+ * <p>
  * There is a unique solution for given equations,
  * solutions is, X1 = 3.0, X2 = 1.0, X3 = 2.0,
- *
+ * <p>
  * Algorithm:
- *
+ * <p>
  * Partial pivoting: Find the kth pivot by swapping rows,
  * to move the entry with the largest absolute value to the
  * pivot position. This imparts computational stability to the algorithm.
@@ -37,7 +38,7 @@ package com.example.myrxjava.combinatoricsGameTheory.hard;
  * the kth entry zero, and for every element in the row subtract the
  * fth multiple of the corresponding element in the kth row.
  * Repeat above steps for each unknown. We will be left with a partial r.e.f. matrix.
- *
+ * <p>
  * https://www.geeksforgeeks.org/gaussian-elimination/
  **/
 public class GaussianElimination {
@@ -47,9 +48,9 @@ public class GaussianElimination {
     public static void main(String[] args) {
         /* input matrix */
         double mat[][] = {
-                { 3.0, 2.0, -4.0, 3.0 },
-                { 2.0, 3.0, 3.0, 15.0 },
-                { 5.0, -3, 1.0, 14.0 }
+                {3.0, 2.0, -4.0, 3.0},
+                {2.0, 3.0, 3.0, 15.0},
+                {5.0, -3, 1.0, 14.0}
         };
 
         gaussianElimination(mat);
@@ -98,7 +99,7 @@ public class GaussianElimination {
     static void print(double mat[][]) {
         for (int i = 0; i < N; i++, System.out.println())
             for (int j = 0; j <= N; j++)
-                System.out.print(mat[i][j]+"  ");
+                System.out.print(mat[i][j] + "  ");
         System.out.println();
     }
 
@@ -108,12 +109,12 @@ public class GaussianElimination {
 
             // Initialize maximum value and index for pivot
             int iMax = k;
-            int vMax = (int)mat[iMax][k];
+            int vMax = (int) mat[iMax][k];
 
             /* find greater amplitude for pivot if any */
             for (int i = k + 1; i < N; i++)
                 if (Math.abs(mat[i][k]) > vMax) {
-                    vMax = (int)mat[i][k];
+                    vMax = (int) mat[i][k];
                     iMax = i;
                 }
 
@@ -139,7 +140,7 @@ public class GaussianElimination {
 
         /* subtract fth multiple of corresponding
                    kth row element*/
-                for (int j = k+1 ; j <= N; j++){
+                for (int j = k + 1; j <= N; j++) {
                     /*mat[i][j] *=  pv;
                     mat[i][j] -= mat[k][j] * withMax;*/
                     mat[i][j] -= mat[k][j] * f;
@@ -151,10 +152,10 @@ public class GaussianElimination {
                 mat[i][k] = 0;
             }
 
-             print(mat);        //for matrix state
+            print(mat);        //for matrix state
         }
 
-         print(mat);            //for matrix state
+        print(mat);            //for matrix state
         return -1;
     }
 
@@ -189,6 +190,105 @@ public class GaussianElimination {
         for (int i = 0; i < N; i++) {
             System.out.format("%.6f", x[i]);
             System.out.println();
+        }
+    }
+}
+
+class GaussianEliminationEqn {
+
+    public static void main(String[] args) {
+        double mat[][] = {
+                {3.0, 2.0, -4.0, 3.0},
+                {2.0, 3.0, 3.0, 15.0},
+                {5.0, -3, 1.0, 14.0}
+        };
+/*
+        double mat[][] = {
+                {2.0, 4.0, 12.0},
+                {1.0, 8.0, 30.0},
+        };*/
+
+        forwardElimination(mat);
+        substitutionMethod(mat);
+
+    }
+
+    static int pivotPos(double[][] mat, int j) {
+        double max = mat[j][j];
+        int pos = j;
+        for (int i = j+1; i < mat.length; i++) {
+            if (mat[i][j] > max) {
+                max = mat[i][j];
+                pos = i;
+            }
+        }
+
+        return pos;
+    }
+
+    static void swapRows(int i, int j, double[][] mat) {
+        for (int k = 0; k < mat[j].length; k++) {
+            double temp = mat[i][k];
+            mat[i][k] = mat[j][k];
+            mat[j][k] = temp;
+        }
+    }
+
+    static void substitutionMethod(double[][] mat) {
+
+        double[] result = new double[mat[0].length - 1];
+        int k = mat[0].length - 2;
+        for (int i = mat.length - 1; i >= 0; i--) {//iterate from the row major
+
+            int rightSide = mat[i].length - 1;
+            for (int j = rightSide - 1; j > 0; j--) { //iterate from the column major
+                if (i != j)
+                    mat[i][rightSide] -= result[j] * mat[i][j];
+            }
+
+            result[k--] = mat[i][rightSide] / mat[i][i];
+        }
+
+        for (double res : result) {
+            System.out.println(res);
+        }
+    }
+
+    static void forwardElimination(double[][] mat) {
+        //in the first pass, we find the pivot by getting the largest number
+        //and swap the largest number with the pivot if not same position
+        int n = mat.length; //the number of rows
+        int m = mat[0].length; //the number of columns
+        for (int i = 0; i < m - 2; i++) { //the last column is the right-hand side, so ignore
+
+            //search for the biggest number and swap with the pivot;
+            int pivotPos = pivotPos(mat, i);
+            double pivItem = mat[pivotPos][i];
+            if (pivotPos != i) {
+                //swap the rows
+                swapRows(i, pivotPos, mat);
+                //pivotPos = i;
+            }
+
+           /* double div = mat[i][i];
+            for (int k = i; k < m; k++) { //iterating through the columns to make update changes
+                mat[i][k] /= div;
+            }*/
+
+            double pivot = mat[i][i];
+            for (int j = i + 1; j < n; j++) {
+
+                //find the factor to reduce the column to row echelon form ie r.e.f
+                double factor = (float) mat[i][i] / mat[j][i];
+                for (int k = i; k < m; k++) { //iterating through the columns to make update changes
+                    double temp = mat[i][k];
+                    mat[j][k] *= factor;
+                    mat[j][k] -= temp;
+
+                }
+
+            }
+
         }
     }
 }

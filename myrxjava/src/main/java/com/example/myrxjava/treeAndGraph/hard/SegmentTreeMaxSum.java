@@ -1,6 +1,7 @@
 package com.example.myrxjava.treeAndGraph.hard;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Segment Tree | Set 1 (Sum of given range)
@@ -20,6 +21,7 @@ public class SegmentTreeMaxSum {
     public static void main(String[] args) {
         int[] arr = {1, 3, 5, 7, 9, 11};
         int n = arr.length;
+
         SegmentTreeMaxSum segmentTree = new SegmentTreeMaxSum();
         segmentTree.buildSegmentTree(arr);
         int sum = segmentTree.getSum(segmentTree.segmentArr, 0, n - 1, 1, 3, 0);
@@ -41,6 +43,10 @@ public class SegmentTreeMaxSum {
         }
 
         return false;
+    }
+
+    boolean isPowerOfTwoBitManip(int n){
+        return (n != 0) && ((n & (n-1)) == 0);
     }
 
     int smallestNextPower(int n) {
@@ -163,7 +169,7 @@ public class SegmentTreeMaxSum {
 
     void buildSegmentTree(int[] arr) {
         int n = arr.length;
-        int size = getSizeWithLog(n);
+        int size = getSize(n);
 
         segmentArr = new Node[size];
 
@@ -179,7 +185,7 @@ public class SegmentTreeMaxSum {
 
     private int getSize(int n) {
         int size = 2 * n - 1;
-        if (!isPowerOfTwo(n)) {
+        if (!isPowerOfTwoBitManip(n)) {
             int smallestNextPower = smallestNextPower(n);
             size = 2 * smallestNextPower - 1;
         }

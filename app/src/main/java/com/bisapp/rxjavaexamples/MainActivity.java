@@ -44,7 +44,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        groupJoinOperator();
+        //groupJoinOperator();
+
+        Observable
+                .zip(Observable.fromIterable(Arrays.asList(1, 2, 3, 4, 5, 6)),Observable.interval(5, TimeUnit.SECONDS),new BiFunction<Integer, Long, Object>() {
+
+                    @Override
+                    public Object apply( Integer integer,  Long aLong) throws Exception {
+                        return integer;
+                    }
+                })
+                .subscribe(
+                        v -> {
+                            Log.d(LOG_TAG,"The next result => " + v);
+                        }
+                );
 
 
     }

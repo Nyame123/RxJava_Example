@@ -1,9 +1,8 @@
 package com.example.myrxjava.operators;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -29,7 +28,9 @@ public class CreateOperatorsExample {
         //3. Filtering of Observables
         //4. Combination of Observables
 
-        intervalOperator();
+         intervalOperator();
+
+
     }
 
     //using create operator in rxjava
