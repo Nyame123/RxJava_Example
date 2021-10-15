@@ -31,8 +31,8 @@ public class Urlify {
                 str[--index] = '%';
                 //index -= 3;
             }else {
-                str[index-1] = str[i];
-                index--;
+                str[--index] = str[i];
+                //index--;
             }
         }
 
