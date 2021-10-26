@@ -32,7 +32,7 @@ public class ValidBST {
     }
 
     static void checkValidBinaryTree(TreeNode<Integer> root) {
-        ValidResult result = validBinaryTree(root,NodeDirection.LEFT);
+        ValidResult result = validBinaryTree(root, NodeDirection.LEFT);
         //isValidBinaryTreeUsingMaxMin(root,null,null);
         if (result.result) {
             System.out.println("This binary tree is a valid binary search tree");
@@ -41,17 +41,17 @@ public class ValidBST {
         }
     }
 
-    static boolean isValidBinaryTreeUsingMaxMin(TreeNode<Integer> root,Integer min,Integer max){
-        if (root == null){
+    static boolean isValidBinaryTreeUsingMaxMin(TreeNode<Integer> root, Integer min, Integer max) {
+        if (root == null) {
             return true;
         }
 
-        if (min != null && (root.getData() <= min) || max != null && (root.getData() >= max)){
+        if (min != null && (root.getData() <= min) || max != null && (root.getData() >= max)) {
             return false;
         }
 
-        if (!isValidBinaryTreeUsingMaxMin(root.getLeft(),min,root.getData()) ||
-                !isValidBinaryTreeUsingMaxMin(root.getRight(),root.getData(),max)){
+        if (!isValidBinaryTreeUsingMaxMin(root.getLeft(), min, root.getData()) ||
+                !isValidBinaryTreeUsingMaxMin(root.getRight(), root.getData(), max)) {
             return false;
         }
 
@@ -60,7 +60,7 @@ public class ValidBST {
 
     //Time Complexity = O(logn)
     //Space Complexity = O(n)
-    static ValidResult validBinaryTree(TreeNode<Integer> root,NodeDirection dir) {
+    static ValidResult validBinaryTree(TreeNode<Integer> root, NodeDirection dir) {
         //base case
         if (root == null) {
             ValidResult result = new ValidResult();
@@ -69,23 +69,24 @@ public class ValidBST {
             return result;
         }
 
-        ValidResult leftRes = validBinaryTree(root.getLeft(),NodeDirection.LEFT);
+        ValidResult leftRes = validBinaryTree(root.getLeft(), NodeDirection.LEFT);
 
-        ValidResult rightRes = validBinaryTree(root.getRight(),NodeDirection.RIGHT);
+        ValidResult rightRes = validBinaryTree(root.getRight(), NodeDirection.RIGHT);
 
         boolean isValid = false;
         int value;
-        if (leftRes.value != Integer.MIN_VALUE && rightRes.value != Integer.MIN_VALUE){
-            value = dir == NodeDirection.LEFT? Math.max(leftRes.value, rightRes.value) : Math.min(leftRes.value, rightRes.value);
+        if (leftRes.value != Integer.MIN_VALUE && rightRes.value != Integer.MIN_VALUE) {
+            value = dir == NodeDirection.LEFT ? Math.max(leftRes.value, rightRes.value) : Math.min(leftRes.value, rightRes.value);
             isValid = leftRes.value <= root.getData() && root.getData() <= rightRes.value;
-        }else if (leftRes.value == Integer.MIN_VALUE && rightRes.value == Integer.MIN_VALUE) {
+        } else if (leftRes.value == Integer.MIN_VALUE && rightRes.value == Integer.MIN_VALUE) {
             value = root.getData();
             isValid = true;
-        }else if (leftRes.value == Integer.MIN_VALUE){
+        } else if (leftRes.value == Integer.MIN_VALUE) {
             value = rightRes.value;
             isValid = root.getData() <= rightRes.value;
-        }else{
+        } else {
             value = leftRes.value;
+            isValid = leftRes.value < root.getData();
         }
 
         ValidResult result = new ValidResult();
@@ -95,13 +96,13 @@ public class ValidBST {
 
     }
 
-    static class ValidResult{
-        boolean result;
-        Integer value;
-    }
-
-    enum NodeDirection{
+    enum NodeDirection {
         RIGHT,
         LEFT
+    }
+
+    static class ValidResult {
+        boolean result;
+        Integer value;
     }
 }
