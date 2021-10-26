@@ -61,7 +61,7 @@ public class PathSum {
         int finalCount = 0;
 
         currentSum += root.getData();
-        if (currentSum == target)
+        if (currentSum == target)//sum up to the current node starting from the root
             finalCount++;
 
         finalCount += memo.getOrDefault(currentSum - target, 0);
