@@ -23,11 +23,11 @@ public class PathSum {
         root.getRight().setRight(new TreeNode<>(9));*/
 
         /**
-         *             5
-         *         /      \
-         *        4        8
-         *       / \      / \
-         *      3   7    6   9
+         *            5
+         *          /   \
+         *        4      8
+         *       / \    / \
+         *      3   7  6   9
          *
          *
          * */

@@ -689,7 +689,9 @@ public class CodeWarChallenge {
         int sum = Integer.MIN_VALUE;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                int temp = a[i][j] + a[i][j + 1] + a[i][j + 2] + a[i + 1][j + 1] + a[i + 2][j] + a[i + 2][j + 1] + a[i + 2][j + 2];
+                int temp = a[i][j] + a[i][j + 1] +
+                        a[i][j + 2] + a[i + 1][j + 1] + a[i + 2][j]
+                        + a[i + 2][j + 1] + a[i + 2][j + 2];
                 if (temp > sum) {
                     sum = temp;
                 }

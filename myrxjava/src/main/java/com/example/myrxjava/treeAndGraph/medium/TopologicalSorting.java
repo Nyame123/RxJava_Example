@@ -73,16 +73,15 @@ public class TopologicalSorting {
 
         // Recur for all the vertices adjacent
         // to thisvertex
-        Iterator<Integer> it = adj.get(v).iterator();
-        while (it.hasNext()) {
-            i = it.next();
+        for (Integer integer : adj.get(v)) {
+            i = integer;
             if (!visited[i])
                 topologicalSortUtil(i, visited, stack);
         }
 
         // Push current vertex to stack
         // which stores result
-        stack.push(new Integer(v));
+        stack.push(v);
     }
 
     // The function to do Topological Sort.
